@@ -19,9 +19,11 @@ print api.VerifyCredentials()
 
 source_filename = sys.argv[1:]
 twitter_markov = markov.TwitterableMarkovGenerator(source_filename)
-print twitter_markov.make_text(twitter_markov.chains)
+
+tweet = twitter_markov.make_text(twitter_markov.chains)
+print tweet
 # Send a tweet
-#status = api.PostUpdate(twitter_markov.make_text(twitter_markov.chains)
+status = api.PostUpdate(tweet)
 #print status.text
 
 # Now you can go to http://twitter.com/hackbright0 to see it

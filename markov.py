@@ -66,17 +66,27 @@ class TwitterableMarkovGenerator(SimpleMarkovGenerator):
         punctuation ='!?%.]^_|}'
         key = choice(chains.keys())
         twitter_string = key[0][0].upper() + key[0][1:] + " " + key[1]
+        count = len(twitter_string)
+        punc_index_list = []
         
         while key in chains:
-            word = choice(chains[key])
-            twitter_string = twitter_string + " " + word 
+            word = choice(chains[key])             
             key = (key[1], word)
+            count = len(twitter_string + " " + word)
+            if count > 140:
+                break
 
-            if word[-1] in punctuation and 100 < len(twitter_string) <= 140:
-                return twitter_string   
-            
-        return twitter_string 
+            twitter_string = twitter_string + " " + word
 
+        i=0
+        for character in twitter_string:
+            if character in punctuation:
+                punc_index_list.append(i)
+            i += 1  
+        
+        ending_index = punc_index_list[-1] + 1    
+        
+        return twitter_string[:ending_index]
 
     def ask_user(self): 
         print self.make_text(self.chains)
@@ -86,18 +96,18 @@ class TwitterableMarkovGenerator(SimpleMarkovGenerator):
             print self.make_text(self.chains)
             reply = raw_input("Would you like to create another tweet? Y/N \n").upper()
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    filenames = sys.argv[1:]
-    print filenames
-    # simple_markov = SimpleMarkovGenerator(filenames)
-    twitter_markov = TwitterableMarkovGenerator(filenames)
+    # filenames = sys.argv[1:]
+    # print filenames
+    # # simple_markov = SimpleMarkovGenerator(filenames)
+    # twitter_markov = TwitterableMarkovGenerator(filenames)
     
-    # print twitter_markov.make_text(twitter_markov.chains)
-    # reply = raw_input("Would you like to create another tweet? Y/N \n").upper()
+    # # print twitter_markov.make_text(twitter_markov.chains)
+    # # reply = raw_input("Would you like to create another tweet? Y/N \n").upper()
 
-    # while reply == 'Y': 
-    #     print twitter_markov.make_text(twitter_markov.chains)
-    #     reply = raw_input("Would you like to create another tweet? Y/N \n").upper()
+    # # while reply == 'Y': 
+    # #     print twitter_markov.make_text(twitter_markov.chains)
+    # #     reply = raw_input("Would you like to create another tweet? Y/N \n").upper()
 
-    twitter_markov.ask_user()
+    # twitter_markov.ask_user()
