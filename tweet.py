@@ -1,8 +1,6 @@
 """Demonstrate Twitter API"""
 
-import os
-
-import twitter
+import sys, os, twitter, markov
 
 
 # Use Python os.environ to get at environmental variables
@@ -19,9 +17,12 @@ api = twitter.Api(
 # This will print info about credentials to make sure they're correct
 print api.VerifyCredentials()
 
+source_filename = sys.argv[1:]
+twitter_markov = markov.TwitterableMarkovGenerator(source_filename)
+print twitter_markov.make_text(twitter_markov.chains)
 # Send a tweet
-status = api.PostUpdate('tweet body here')
-print status.text
+#status = api.PostUpdate(twitter_markov.make_text(twitter_markov.chains)
+#print status.text
 
 # Now you can go to http://twitter.com/hackbright0 to see it
 #

@@ -14,6 +14,7 @@ class SimpleMarkovGenerator(object):
         corpus = ''
         for filename in filenames:
             file_content = open(filename).read()
+            #.replace('"', '')
             corpus += file_content
         return corpus 
 
@@ -88,6 +89,7 @@ class TwitterableMarkovGenerator(SimpleMarkovGenerator):
 if __name__ == "__main__":
 
     filenames = sys.argv[1:]
+    print filenames
     # simple_markov = SimpleMarkovGenerator(filenames)
     twitter_markov = TwitterableMarkovGenerator(filenames)
     
